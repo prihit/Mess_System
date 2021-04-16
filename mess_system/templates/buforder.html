@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<section id="header" style="margin-top: 160px;">
+    <div class="container" style="width: 550px; margin:auto;">
+
+<form action=" " method="POST">
+    {% csrf_token %}
+    {% for i in menu %}
+    <div class="form-group" style="background-color:rgb(139, 195, 74); color: white; padding: 15px;" >
+        <h4><u>{{ i.name }}</u> &rAarr;   &#x20b9;{{ i.price }}</h4>
+        <label for="quantity">Quantity : </label>
+        <input type="number" name="{{i.name}}" id="quantity" min="0" value="0" style="color: black;">
+    </div>
+    {% endfor %}
+    <div class="form-group" style="width: 230px;">
+        <button type="submit" id="submit" name="submit" class="btn btn-reservation"><span><i class="fa fa-check-circle-o"></i></span>
+            Order Done !
+        </button>
+    </div>
+</form>
+    </div>
+</section>
+{% endblock %}

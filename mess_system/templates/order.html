@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Order Here</h1>
+
+<form action="{% url 'order' %}" method="POST">
+    {% csrf_token %}
+    <label for="meal_type">Choose a Meal: </label>
+    <select name="meal_type" id="meal_type" onchange="showopt()">
+        <option value="Breakfast">Breakfast</option>
+        <option value="Lunch">Lunch</option>
+        <option value="Evening">Evening Snack</option>
+        <option value="Dinner">Dinner</option>
+        <option value="Mid-night">Mid Night</option>
+    </select>
+    <div class="btn-group btn-group-toggle" data-toggle="buttons" role="group" aria-label="Basic radio toggle button group">
+        <div id="buf" class="form-group" style="display: block;">
+        <input type="radio" class="btn-check" name="btnradio" value="Buffet" id="btnradio1" autocomplete="off" checked>
+        <label class="btn btn-outline-warning" for="btnradio1">Buffet</label>
+        </div>
+        <div id="ala" class="form-group" style="display: block;">
+        <input type="radio" class="btn-check" name="btnradio" id="btnradio2" value="Ala Carte" autocomplete="off">
+        <label class="btn btn-outline-warning" for="btnradio2">Ala Carte</label>
+      </div>
+    </div>
+    <input type="hidden" name="meal_choice" id="meal_choice">
+    <input type="submit" value="Submit">
+</form>
+{% endblock %}
+{% block add_js %}
+<script type="text/javascript">
+    function showopt() {
+  var selectBox = document.getElementById("meal_type");
+  var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+  var buf = document.getElementById("buf");
+  var ala = document.getElementById("ala");
+//   console.log(selectedValue);
+  if(selectedValue === "Breakfast" || selectedValue === "Dinner" || selectedValue === "Mid-night"){
+      buf.style.display = "block";
+      ala.style.display = "block";
+  }
+  else if(selectedValue === "Lunch"){
+    ala.style.display = "none";
+    buf.style.display = "block";
+  }
+  else{
+    buf.style.display = "none";
+    ala.style.display = "block";
+  }
+    }
+</script>	
+{% endblock %}

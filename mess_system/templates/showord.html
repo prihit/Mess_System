@@ -1,0 +1,20 @@
+{% extends 'base.html' %} 
+{% block content %}
+
+<section id="header" style="margin-top: 160px;">
+    <div class="container" style="width: 550px; margin: auto;">
+
+{% for j in order %}
+<h3 style="background-color:rgb(139, 195, 74); color: white; padding: 15px;">Your Order No. is &emsp; <strong> {{ j.id }} </strong> <br> <br>  Total Amount:  &emsp; &#x20b9;{{ j.total_price }} 
+{% endfor %}
+   <br><br><u><strong> Order Details: </strong></u> <br><br>
+    {% for i in meal %}
+    {{ i.meal_id.meal_name }}: &emsp; &emsp;
+    {{ i.meal_id.quantity }}
+    {% endfor %}
+</h3>
+
+
+    </div>
+</section>
+{% endblock %}

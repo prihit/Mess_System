@@ -1,0 +1,323 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- <link rel="shortcut icon" href="images/star.png" type="favicon/ico" /> -->
+
+        <title>Mamma's Kitchen</title>
+
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/owl.carousel.css' %}">
+        <link rel="stylesheet" href="{% static 'css/owl.theme.css' %}">
+        <link rel="stylesheet" href="{% static 'css/animate.css' %}">
+        <link rel="stylesheet" href="{% static 'css/flexslider.css' %}">
+        <link rel="stylesheet" href="{% static 'css/pricing.css' %}">
+        <link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+
+        <script src="{% static 'js/jquery-1.11.2.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/jquery.flexslider.min.js' %}"></script>
+        <script type="text/javascript">
+            $(window).load(function() {
+                $('.flexslider').flexslider({
+                 animation: "slide",
+                 controlsContainer: ".flexslider-container"
+                });
+            });
+        </script>
+        <body data-spy="scroll" data-target="#template-navbar">
+
+            <!--== 4. Navigation ==-->
+            <nav id="template-navbar" class="navbar navbar-default custom-navbar-default navbar-fixed-top">
+                <div class="container">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#Food-fair-toggle">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="#">
+                            <img id="logo" src="{% static 'images/Logo_main.png' %}" class="logo img-responsive">
+                        </a>
+                    </div>
+    
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="Food-fair-toggle">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="#reserve">Place Order</a></li>
+                            <li><a href="#about">About</a></li>
+                            <!-- <li><a href="#pricing">pricing</a></li> -->
+                            <li><a href="#great-place-to-enjoy">Motivation</a></li>
+                            <li><a href="#breakfast">Timings</a></li>
+                            <!-- <li><a href="#featured-dish">featured</a></li> -->
+                            <li><a href="#contact">Contact Us</a></li>
+                            {% if user.is_authenticated %}
+                            <li class="drop-down"><a href="#"> {{ user.first_name }} {{ user.last_name }} </a> </li>
+                            <li><a href="#">Balance: &#x20b9;{{ user.student.mess_balance }}</a></li>
+                            <li><a href="/logou">Log Out</a></li>
+                            {% else %} 
+                            <li><a href="/"> Log In</a></li>
+                            {% endif %}
+
+                        </ul>
+                    </div><!-- /.navbar-collapse -->
+                </div><!-- /.row -->
+            </nav>
+            
+            <section id="header-slider" class="owl-carousel">
+                <div class="item">
+                    <div class="container">
+                        <div class="header-content">
+                            <h1 class="header-title">Mess-Cart</h1>
+                            <p class="header-sub-title">" Why use Mess card when there's Mess-cart ? "</p>
+                        </div> <!-- /.header-content -->
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="container">
+                        <div class="header-content">
+                            <h1 class="header-title">Mess-Cart</h1>
+                            <p class="header-sub-title">" Why use Mess card when there's Mess-cart ? "</p>
+                        </div> <!-- /.header-content -->
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="container">
+                        <div class="header-content text-right pull-right">
+                            <h1 class="header-title">Mess-Cart</h1>
+                            <p class="header-sub-title">" Why use Mess card when there's Mess-cart ? "</p>
+                        </div> <!-- /.header-content -->
+                    </div>
+                </div>
+            </section>
+            
+            <section id="reserve" class="reservation">
+                <img class="img-responsive section-icon hidden-sm hidden-xs" src="{% static 'images/icons/reserve_color.png' %}">
+                <div class="wrapper">
+                    <div class="container-fluid">
+                        <div class=" section-content">
+                            <div class="row">
+                                <div class="col-md-5 col-sm-6">
+                                    <form class="reservation-form" method="POST" action="{% url 'order' %}">
+                                        {% csrf_token %}
+                                                <div class="form-group">
+                                                    <label for="meal_type">Choose a Meal: </label>
+                                                    <select name="meal_type" id="meal_type" onchange="showopt()">
+                                                        <option value="Breakfast">Breakfast</option>
+                                                        <option value="Lunch">Lunch</option>
+                                                        <option value="Evening">Evening Snack</option>
+                                                        <option value="Dinner">Dinner</option>
+                                                        <option value="Mid-night">Mid Night</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group" id="buf">
+                                                    <input type="radio" class="btn-check" name="btnradio" value="Buffet" id="btnradio1" autocomplete="off" checked>
+                                                    <label class="btn btn-outline-warning" for="btnradio1">Buffet</label>
+                                                </div>
+                                                <div class="form-group" id="ala">
+                                                    <input type="radio" class="btn-check" name="btnradio" id="btnradio2" value="Ala Carte" autocomplete="off">
+                                                    <label class="btn btn-outline-warning" for="btnradio2">Ala Carte</label>          
+                                                </div>
+    
+                                            <div class="col-md-12 col-sm-12">
+                                                <input type="hidden" name="meal_choice" id="meal_choice">
+                                            </div>
+    
+                                            <div class="col-md-12 col-sm-12">
+                                                <button type="submit" id="submit" name="submit" class="btn btn-reservation">
+                                                    <span><i class="fa fa-check-circle-o"></i></span>
+                                                    Start The Order
+                                                </button>
+
+                                            </div>
+                                                
+                                        </div>
+                                    </form>
+    
+                                <div class="col-md-2 hidden-sm hidden-xs"></div>
+    
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="opening-time">
+                                        <h3 class="opening-time-title">We Should order only that much that we can Eat !</h3>
+                                        <p>Thouusands of people does not get food to eat.</p>
+                                        <p>You are prestiged enough to get it.</p>
+                                        <p>If we don't waste food many of them can get food.</p>     
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+    
+                        </div>
+                    </div>
+            </section>
+            
+            <section id="about" class="about">
+                <img src="{% static 'images/icons/about_color.png' %}" class="img-responsive section-icon hidden-sm hidden-xs">
+                <div class="wrapper">
+                    <div class="container-fluid">
+                        <div class="row dis-table">
+                            <div class="hidden-xs col-sm-6 section-bg about-bg dis-table-cell">
+    
+                            </div>
+                            <div class="col-xs-12 col-sm-6 dis-table-cell">
+                                <div class="section-content">
+                                    <h2 class="section-content-title">About us</h2>
+                                    <p class="section-content-para">
+                                        Sodexo India provides a bouquet of 100+ service offerings to various corporates, healthcare organisations, manufacturing locations and schools and universities. Our solutions include food and catering, facilities management, technical services, workplace experience, energy management and benefits and rewards services. All our solutions are aimed to improve the Quality of Life of our consumers, clients, employees and the communities at large. It is our ongoing effort to evolve with the changing needs of our consumers. To do this, we associate with start-ups to bring innovation into our services; and consequently, digital convenience in the life of our consumers, with unfailing emphasis on a sustainable universe.
+                                    </p>
+                                </div> <!-- /.section-content -->
+                            </div>
+                        </div> <!-- /.row -->
+                    </div> <!-- /.container-fluid -->
+                </div> <!-- /.wrapper -->
+            </section> <!-- /#about -->
+            <section id="great-place-to-enjoy" class="great-place-to-enjoy">
+                <img class="img-responsive section-icon hidden-sm hidden-xs" src="{% static 'images/icons/beer_black.png' %}">
+                <div class="wrapper">
+                    <div class="container-fluid">
+                        <div class="row dis-table">
+                            <div class="col-xs-6 col-sm-6 dis-table-cell color-bg">
+                                <h2 class="section-title">Great Place to enjoy</h2>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 dis-table-cell section-bg">
+                                
+                            </div>
+                        </div> <!-- /.dis-table -->
+                    </div> <!-- /.row -->
+                </div> <!-- /.wrapper -->
+            </section> <!-- /#great-place-to-enjoy -->
+           
+            <section id="beer" class="beer">
+                <img class="img-responsive section-icon hidden-sm hidden-xs" src="{% static 'images/icons/beer_color.png' %}">
+                <div class="container-fluid">
+                    <div class="row dis-table">
+                        <div class="hidden-xs col-sm-6 dis-table-cell section-bg">
+    
+                        </div>
+    
+                        <div class="col-xs-12 col-sm-6 dis-table-cell">
+                            <div class="section-content">
+                                <h2 class="section-content-title">Our Motivation</h2>
+                                <div class="section-description">
+                                    <p class="section-content-para">
+                                        For us, food is passion. We believe that nothing but the best should be served on the plates. Hence, we place utmost importance on sourcing the raw food materials locally, ensuring that every bit is fresh and natural, so that the food we prepare is authentic in taste and hygienic in preparation. Every process that food undergoes from the farm to the plate is rigorously monitored for discipline and consistency.
+                                    </p>
+                                    <p class="section-content-para">
+                                        Our services can help our clients' efforts to reduce their environmental impact. We work together to co-construct offers around facilities and resource management to help meet their sustainability goals.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+    
+           
+            <section id="breakfast" class="breakfast">
+                <img class="img-responsive section-icon hidden-sm hidden-xs" src="{% static 'images/icons/bread_black.png' %}">
+                <div class="wrapper">
+                    <div class="container-fluid">
+                        <div class="row dis-table">
+                            <div class="col-xs-6 col-sm-6 dis-table-cell color-bg">
+                                <h2 class="section-title">Our Meal Time and Types</h2>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 dis-table-cell section-bg">
+                                
+                            </div>
+                        </div> <!-- /.dis-table -->
+                    </div> <!-- /.row -->
+                </div> <!-- /.wrapper -->
+            </section> <!-- /#breakfast -->
+            <section id="bread" class="bread">
+                <img class="img-responsive section-icon hidden-sm hidden-xs" src="{% static 'images/icons/bread_color.png' %}">
+                <div class="container-fluid">
+                    <div class="row dis-table">
+                        <div class="hidden-xs col-sm-6 dis-table-cell section-bg">
+    
+                        </div>
+                        <div class="col-xs-12 col-sm-6 dis-table-cell">
+                            <div class="section-content">
+                                <h2 class="section-content-title">
+                                    Our Timings
+                                </h2>
+                                <div class="section-description">
+                                    <p class="section-content-para">
+                                        We provide 5 different meals everyday. Our timing starts from 7 in the morning to 2 in the night. The Different meals are: <br>
+                                        <br><strong>Breakfast: </strong> 07:00 AM to 10:00 AM <br>
+                                        <strong>Lunch: </strong>  12:00 noon to 03:00 PM  <br>
+                                        <strong>Evening Snacks: </strong> 03:30 PM to 06:00 PM <br>
+                                        <strong>Dinner: </strong>   07:00 PM to 10:00 PM <br>
+                                        <strong>Mid-night Snacks:</strong> 11:00 PM to 02:00 AM <br>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section id="contact" class="contact">
+                <div class="container-fluid color-bg">
+                    <div class="row dis-table">
+                        <div class="hidden-xs col-sm-6 dis-table-cell">
+                            <h2 class="section-title">Contact With us</h2>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 dis-table-cell">
+                            <div class="section-content">
+                                <p><strong>Address: </strong> NH91, Tehsil Dadri, Greater Noida, Uttar Pradesh 201314</p>
+                                <p><strong>Phone: </strong> 1800 102 1768</p>
+                                <p><strong>Email: </strong> <a href="https://messmenu.snu.in/"> Food Committee SNU</a> </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <div class="copyright text-center">
+                        <p>
+                            &copy; Copyright, 2021 <a href="https://messmenu.snu.in/">SNU MESS MENU</a> Managed by <a href="https://in.sodexo.com/home.html"  target="_blank"> Sodexo India </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script type="text/javascript">
+        function showopt() {
+      var selectBox = document.getElementById("meal_type");
+      var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+      var buf = document.getElementById("buf");
+      var ala = document.getElementById("ala");
+    //   console.log(selectedValue);
+      if(selectedValue === "Breakfast" || selectedValue === "Dinner" || selectedValue === "Mid-night"){
+          buf.style.display = "block";
+          ala.style.display = "block";
+      }
+      else if(selectedValue === "Lunch"){
+        ala.style.display = "none";
+        buf.style.display = "block";
+      }
+      else{
+        buf.style.display = "none";
+        ala.style.display = "block";
+      }
+        }
+    </script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.mixitup.min.js' %}" ></script>
+    <script src="{% static 'js/wow.min.js' %}"></script>
+    <script src="{% static 'js/jquery.validate.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.hoverdir.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jQuery.scrollSpeed.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>
